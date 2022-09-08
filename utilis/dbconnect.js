@@ -27,3 +27,12 @@ module.exports = {
     return dbConnection;
   },
 };
+/* mongobd server connect end */
+
+/* mongoose server connect */
+/* const mongoose = require("mongoose");
+
+module.exports.main = async function () {
+  return await mongoose.connect("mongodb://localhost:27017/tools");
+}; */
+/* mongoose server connect end*/
