@@ -1,24 +1,24 @@
 const { ObjectId } = require("mongodb");
-// const { userPostModel } = require("../model/userPost");
+const {
+  getUserService,
+  saveUserService,
+} = require("../services/user.services");
+
 const { getDb } = require("../utilis/dbconnect");
 
 module.exports = {
+  /* mongooes query user get and save */
   getUser: async function (req, res, next) {
     try {
+      /* id find user only*/
       const { id } = req.query;
-      const db = await getDb();
-      /* id find user only */
       if (id) {
-        const userData = await db
-          .collection("user")
-          .find({ _id: ObjectId(id) })
-          .toArray();
+        const userData = await getUserService(id);
         return res.json(userData);
       }
       /* id find user only end*/
 
-      const userData = await db.collection("user").find().toArray();
-      /*  const userData = await userPostModel.find(); */
+      const userData = await getUserService(); //mongooes
       res.json(userData);
     } catch (error) {
       console.log(error);
@@ -28,15 +28,15 @@ module.exports = {
   savaUser: async function (req, res) {
     try {
       const data = req.body;
-      const db = await getDb();
-      const userSave = await db.collection("user").insertOne(data);
-      /*               await userPostModel.create(data); */
-      res.json(data);
-    } catch (userSave) {
+      const result = await saveUserService(data);
+      res.json(result);
+    } catch (error) {
       console.log(error);
     }
   },
+  /* mongooes query user get and save end*/
 
+  /* mongodb query system upadate and delete */
   updataeUser: async function (req, res) {
     try {
       const data = req.body;
@@ -47,7 +47,7 @@ module.exports = {
         return res.json({ massage: "your updated id not valid" });
       }
       const updataed = await db
-        .collection("user")
+        .collection("users")
         .updateOne({ _id: ObjectId(id) }, { $set: data });
       if (!updataed.modifiedCount) {
         return res
@@ -68,4 +68,6 @@ module.exports = {
     }
     res.json({ massage: "user delete successsfully", deleteMsa });
   },
+
+  /* mongodb query system upadate and delete end*/
 };

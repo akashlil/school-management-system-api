@@ -10,8 +10,8 @@ const userRouter = require("./routes/v1/user.route");
 const { router: adminRouter } = require("./routes/v1/admin.route");
 
 /* mongoose connect */
-/* const mongoose = require("mongoose");
-main(); */
+const mongoose = require("mongoose");
+main();
 /* mongoose connect */
 
 connectToServer((err) => {
